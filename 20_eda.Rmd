@@ -43,60 +43,18 @@ q3_participation <- function(x) ifelse(!is.na(x), 1, 0)
 qual_06_20 <- qual_06_20 %>% 
   mutate(q3_y_n = as.factor(q3_participation(q3))) %>%
   filter(q1 < 1000)
-=======
-data_master %>% 
-  filter(tyre %in% c("H", "M", "S")) %>% 
-  ggplot(., aes(age,
-                laptime_s)) +
-  geom_point(aes(col = tyre)) +
-  scale_color_manual(values=c("black", "gold", "red")) +
-  geom_smooth(method = 'gam') +
-  xlab("Tyre age (laps)") +
-  ylab("Lap time (s)") +
-  theme_classic()
->>>>>>> 9eb83abb46f5071c9d9166c9428f4fa2ce6322ca
 ```
 
 ```{r test relationship}
 t1 <- qual_06_20$q1[qual_06_20$q3_y_n == 1]
 t2 <- qual_06_20$q1[qual_06_20$q3_y_n == 0]
 
-<<<<<<< HEAD
 t.test(t1, t2)
-=======
-by_team <- function(driver_1, driver_2) {
-  data_master %>% 
-  filter(tyre %in% c("H", "M", "S"),
-         driver %in% c(driver_1, driver_2)) %>% 
-  ggplot(., aes(age,
-                laptime_s)) +
-  geom_point(aes(col = tyre)) +
-  scale_color_manual(values=c("black", "gold", "red")) +
-  geom_smooth(method = 'gam') +
-  xlab("Tyre age (laps)") +
-  ylab("Lap time (s)") +
-  theme_classic()
-}
-
-rbr <- by_team("VER", "ALB")
-merc <- by_team("HAM", "BOT")
-rp <- by_team("PER", "STR")
-mcl <- by_team("SAI", "NOR")
-atau <- by_team("GAS", "KVY")
-alfa <- by_team("GIO", "RAI")
-haas <- by_team("GRO", "MAG")
-ren <- by_team("RIC", "OCO")
-fer <- by_team("VET", "LEC")
-wil <- by_team("RUS", "LAT")
-
-grid.arrange(rbr, merc, rp, mcl, atau, alfa, haas, ren, fer, wil, 
-             nrow = 5)
->>>>>>> 9eb83abb46f5071c9d9166c9428f4fa2ce6322ca
 ```
 
 These results suggest that Q1 times of those who eventually participate in the same GP's Q3 session are about 2 seconds quicker, on average, than those who do not end up qualifying for Q3. Let's visualize the distributions of these groups. 
 
-<<<<<<< HEAD
+
 ```{r visualize relationship}
 ggplot(data = qual_06_20, aes(x = q1, y = q3_y_n))+
   geom_jitter(height=0.2, alpha = 0.2)+
@@ -104,63 +62,5 @@ ggplot(data = qual_06_20, aes(x = q1, y = q3_y_n))+
   theme_classic()+
   xlab("Q1 lap times (s)")+
   ylab("Participation in Q3")
-=======
-```{r warning = F}
-data_master %>% 
-  filter(laptime_s > 100,
-         tyre == "S") %>% 
-  ggplot(., aes(x = age,
-                y = laptime_s)) +
-    geom_smooth(aes(col = team),
-                se = F) +
-    scale_color_brewer(palette="Paired") +
-    theme_classic()
->>>>>>> 9eb83abb46f5071c9d9166c9428f4fa2ce6322ca
-```
-
-```{r}
-redbull_sector_times <- data_master %>% 
-  filter(s1 < 40,
-         team == "Red Bull")
-
-ggplot(data = redbull_sector_times, 
-       aes(x = 1, 
-           y = s1,
-           col = driver)) +
-  geom_boxplot() +
-  geom_boxplot(data = redbull_sector_times, 
-               aes(x = 2,
-                   y = s2)) +
-  geom_boxplot(data = redbull_sector_times, 
-               aes(x = 3,
-                   y = s3)) +
-  scale_x_continuous(breaks = c(1, 2, 3)) + 
-  xlab("Sector") +
-  ylab("Sector time (s)") +
-  ggtitle("Sector times, Red Bull Racing") +
-  theme_classic()
-```
-
-```{r}
-fun_sector_times <- data_master %>% 
-  filter(s1 < 40,
-         driver %in% c("ALB", "GAS"))
-
-ggplot(data = fun_sector_times, 
-       aes(x = 1, 
-           y = s1,
-           col = driver)) +
-  geom_boxplot() +
-  geom_boxplot(data = fun_sector_times, 
-               aes(x = 2,
-                   y = s2)) +
-  geom_boxplot(data = fun_sector_times, 
-               aes(x = 3,
-                   y = s3)) +
-  scale_x_continuous(breaks = c(1, 2, 3)) + 
-  xlab("Sector") +
-  ylab("Sector time (s)") +
-  ggtitle("Sector times, Albon and Gasly") +
-  theme_classic()
 ```
 
