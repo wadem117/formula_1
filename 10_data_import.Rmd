@@ -1,0 +1,37 @@
+---
+title: "10: Data Import"
+output: github_document
+---
+
+This notebook will include all of the data importing steps, as well as cleaning and joining dataframes where necessary. I will need Tidyverse (primarily for dplyr and lubridate), janitor for name cleaning, and chron for getting uniform lap times. 
+
+```{r load packages, message=F}
+library(tidyverse)
+library(janitor)
+library(stringr)
+```
+
+First I will import the two qualifying datasets. They are split chronologically, with the first dataset including years 1950-2005 and the second 2006-2020. 
+
+```{r import qualifying data, message=F, warning=F}
+qual_06_20 <- read_csv("data/qualifying_times_2006-2020.csv") %>% clean_names()
+```
+
+```{r make qualifying datasets match, warning=F}
+# Function to replace DNF and DNS with "NA"
+clean_times <- function(x) ifelse(x %in% c("DNF", "DNS"), NA, x)
+
+# Apply function to dataset
+qual_06_20[9:11] <- lapply(qual_06_20[9:11], clean_times)
+
+# Apply lubridate's 'ms' time conversion function to laptimes 
+qual_06_20[9:11] <- lapply(qual_06_20[9:11], lubridate::ms)
+
+# Finally, convert those columns to numeric
+qual_06_20[9:11] <- sapply(qual_06_20[9:11], as.numeric)
+
+# Check our results
+view(qual_06_20)
+```
+
+Great, we have a nice clean dataframe ready for some exploration!
